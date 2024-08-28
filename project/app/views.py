@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import StudentModel,StudentQuery
+from .models import StudentModel
 from .forms import RegistrationForm,LoginForm,QueryForm
 # Create your views here.
 
@@ -44,8 +44,12 @@ def login(request):
                         'city':city,
                         'password':password
                     }
+                    initial_data={
+                        'stu_name':name,
+                        'stu_email':email
+                    }
                    
-                    form1=QueryForm()
+                    form1=QueryForm(initial=initial_data)
                     return render(request,'dashboard.html',{'data':data,'query':form1})
                 else:
                     msg="password is incorect"  
@@ -56,4 +60,38 @@ def login(request):
     else:            
         return render(request,'login.html',{'form':form})
 
+
+def query(request):
+    form=QueryForm()
+    if request.method=='POST':
+        query_data=QueryForm(request.POST)
+        # print(query_data)
+        if query_data.is_valid():
+            name=query_data.cleaned_data['stu_name']
+            email=query_data.cleaned_data['stu_email']
+            query=query_data.cleaned_data['stu_query']
+            # print(name,email,query)
+            query_data.save()
+            user=StudentModel.objects.get(stu_email=email)
+            if user:
+                name =user.stu_name
+                email=user.stu_email
+                contact =user.stu_mobile
+                city =user.stu_city
+                password=user.stu_password
+                data={
+                        'name':name,
+                        'email':email,
+                        'contact':contact,
+                        'city':city,
+                        'password':password
+                    }
+                initial_data={
+                        'stu_name':name,
+                        'stu_email':email
+                    }
+                   
+                form1=QueryForm(initial=initial_data)
+                return render(request,'dashboard.html',{'data':data,'query':form1})
+    
 
