@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import StudentModel
+from .models import StudentModel ,StudentQuery
 from .forms import RegistrationForm,LoginForm,QueryForm
 # Create your views here.
 
@@ -13,6 +13,7 @@ def home(request):
             city=data.cleaned_data['stu_city']
             contact=data.cleaned_data['stu_mobile']
             password=data.cleaned_data['stu_password']
+            # user=StudentModel.objects.filter(stu_email=email)
             print(name,email,city,contact,password)
             data.save()
             msg="Registration Successfully"
@@ -92,6 +93,7 @@ def query(request):
                     }
                    
                 form1=QueryForm(initial=initial_data)
-                return render(request,'dashboard.html',{'data':data,'query':form1})
+                data1=StudentQuery.objects.filter(stu_email=email)
+                return render(request,'dashboard.html',{'data':data,'query':form1,'query_detail':data1})
     
 
