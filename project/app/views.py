@@ -13,13 +13,22 @@ def home(request):
             city=data.cleaned_data['stu_city']
             contact=data.cleaned_data['stu_mobile']
             password=data.cleaned_data['stu_password']
-            # user=StudentModel.objects.filter(stu_email=email)
-            print(name,email,city,contact,password)
-            data.save()
-            msg="Registration Successfully"
-            return render(request,'home.html',{'form':form,'msg':msg})
+            #print(name,email,city,contact,password)
+            #data.save()
+            user=StudentModel.objects.filter(stu_email=email)
+            if user:
+                msg="Email already exist"
+                form=RegistrationForm()
+                return render (request,'home.html',{'form':form, 'msg':msg})
+            else:
+                data.save()
+                msg="registration successfully"
+                # form=RegistrationForm()
+                return render(request,'home.html',{'form':form,'msg':msg})
+           
     else:
         return render(request,'home.html',{'form':form})
+    
    
 def login(request):
     form=LoginForm()
@@ -51,7 +60,9 @@ def login(request):
                     }
                    
                     form1=QueryForm(initial=initial_data)
-                    return render(request,'dashboard.html',{'data':data,'query':form1})
+                    data1=StudentQuery.objects.filter(stu_email=email)
+                    return render(request,'dashboard.html',{'data':data,'query':form1,'query_detail':data1})
+                    # return render(request,'dashboard.html',{'data':data,'query':form1})
                 else:
                     msg="password is incorect"  
                     return render(request,'login.html',{'form':form,'msg':msg})  
@@ -74,26 +85,26 @@ def query(request):
             # print(name,email,query)
             query_data.save()
             user=StudentModel.objects.get(stu_email=email)
-            if user:
-                name =user.stu_name
-                email=user.stu_email
-                contact =user.stu_mobile
-                city =user.stu_city
-                password=user.stu_password
-                data={
-                        'name':name,
-                        'email':email,
-                        'contact':contact,
-                        'city':city,
-                        'password':password
-                    }
-                initial_data={
-                        'stu_name':name,
-                        'stu_email':email
-                    }
-                   
-                form1=QueryForm(initial=initial_data)
-                data1=StudentQuery.objects.filter(stu_email=email)
-                return render(request,'dashboard.html',{'data':data,'query':form1,'query_detail':data1})
+            
+            name =user.stu_name
+            email=user.stu_email
+            contact =user.stu_mobile
+            city =user.stu_city
+            password=user.stu_password
+            data={
+                    'name':name,
+                    'email':email,
+                    'contact':contact,
+                    'city':city,
+                    'password':password
+                }
+            initial_data={
+                    'stu_name':name,
+                    'stu_email':email
+                }
+                
+            form1=QueryForm(initial=initial_data)
+            data1=StudentQuery.objects.filter(stu_email=email)
+            return render(request,'dashboard.html',{'data':data,'query':form1,'query_detail':data1})
     
 

@@ -28,13 +28,13 @@
         </form>
     </center>
     <table>
-        <thead>
+        <th>
             <td>Name</td>
             <td>Email</td>
             <td>Query</td>
-        </thead>
-        {% if data1 %}
-        {% for i in data1 %}
+        </th>
+        {% if query_detail %}
+        {% for i in query_detail %}
            <tr>
                <td>{{i.stu_name}}</td>
                <td>{{i.stu_email}}</td>
