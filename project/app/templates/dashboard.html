@@ -20,13 +20,22 @@
     <center>
         <h1>Query Form</h1>
         <h4>{{msg}}</h4>
+        {% if form1 %}
+        <form action="{% url 'query' %}" method>
+            {% csrf_token %}
+            {{form1}}
+            <button type="submit">Update</button>
+        </form>
+        {% else %}
         <form action="{% url 'query' %}" method="post">
             {% csrf_token %}
             {{query}}
             <button type="submit">Submit Query</button>
 
         </form>
+        {% endif %}
     </center>
+
     <table>
         <th>
             <td>Name</td>
@@ -42,6 +51,8 @@
            </tr>
         {% endfor %}
         {% endif %}
+        <td><a href="#"><button type="submit">EDIT</button></a></td>
+        <td><a href="#"><button type="submit">DELETE</button></a></td>
     </table>
 
 </body>
