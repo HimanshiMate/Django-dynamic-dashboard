@@ -21,7 +21,8 @@
         <h1>Query Form</h1>
         <h4>{{msg}}</h4>
         {% if form1 %}
-        <form action="{% url 'query' %}" method>
+        <!-- <form action="{% url 'query' %}" method> -->
+        <form action="{% url 'update' %}" method="post">
             {% csrf_token %}
             {{form1}}
             <button type="submit">Update</button>
@@ -35,24 +36,36 @@
         </form>
         {% endif %}
     </center>
-
+    <h1>Query Detail</h1>
     <table>
         <th>
+            <td>id</td>
             <td>Name</td>
             <td>Email</td>
             <td>Query</td>
+            <td>Update</td>
+            <td>Delete</td>
         </th>
         {% if query_detail %}
         {% for i in query_detail %}
            <tr>
+               <td>{{i.id}}</td>
                <td>{{i.stu_name}}</td>
                <td>{{i.stu_email}}</td>
                <td>{{i.stu_query}}</td>
+               <td><a href="#"><button type="submit">Edit</button></a></td>
+               <td><form action="{% url 'edit' pk=i.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Edit</button>
+               </form></td>
+               <td><form action="{% url 'delete' pk=i.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+               </form></td>
            </tr>
         {% endfor %}
         {% endif %}
-        <td><a href="#"><button type="submit">EDIT</button></a></td>
-        <td><a href="#"><button type="submit">DELETE</button></a></td>
+
     </table>
 
 </body>

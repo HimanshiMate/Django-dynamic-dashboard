@@ -146,7 +146,7 @@ def edit(request,pk):
         name = user.stu_name
         email = user.stu_email
         query = user.stu_query
-        
+        id=pk
         initial_data = {
                         'stu_name': name,
                         'stu_email': email,
@@ -167,7 +167,8 @@ def edit(request,pk):
                     'city':city,
                     'password':password
                     }
-    return render(request, "dashboard.html",{'data':data,'form1':form1,'data1':data1})    
+    return render(request, "dashboard.html",{'data':data,'form1':form1,'query_detail':data1,'pk':pk})    
     
-    
+def update(request,pk):
+    print(pk)    
 

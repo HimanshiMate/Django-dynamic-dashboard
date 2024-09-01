@@ -23,6 +23,7 @@ urlpatterns = [
     path('',home,name="home"),
     path('login/',login,name="login"),
     path('query/',query,name="query"),
-    path('delete/',delete,name="delete"),
-    path('edit/',edit,name='edit')
+    path('delete/<int:pk>',delete,name="delete"),
+    path('edit/<int:pk>',edit,name='edit'),
+    path('update/<int:pk>',update,name='update')
 ]
