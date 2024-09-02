@@ -22,7 +22,7 @@
         <h4>{{msg}}</h4>
         {% if form1 %}
         <!-- <form action="{% url 'query' %}" method> -->
-        <form action="{% url 'update' %}" method="post">
+        <form action="{% url 'update' pk=pk %}" method="post">
             {% csrf_token %}
             {{form1}}
             <button type="submit">Update</button>
@@ -49,11 +49,12 @@
         {% if query_detail %}
         {% for i in query_detail %}
            <tr>
-               <td>{{i.id}}</td>
+               <!-- <td>{{i.id}}</td> -->
+               <td>{{forloop.counter}}</td>
                <td>{{i.stu_name}}</td>
                <td>{{i.stu_email}}</td>
                <td>{{i.stu_query}}</td>
-               <td><a href="#"><button type="submit">Edit</button></a></td>
+               <!-- <td><a href="#"><button type="submit">Edit</button></a></td> -->
                <td><form action="{% url 'edit' pk=i.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit">Edit</button>
