@@ -223,10 +223,18 @@ def home(request):
             city=data.cleaned_data['stu_city']
             contact=data.cleaned_data['stu_mobile']
             password = data.cleaned_data['stu_password']
-            print(name,email,city,contact,password)
-            data.save()
-            msg="Registration Successfully"
-            return render(request,'home.html',{'form':form,'msg':msg})
+            # print(name,email,city,contact,password)
+            # data.save()
+            user=StudentModel.objects.filter(stu_email=email)
+            if user:
+                msg="Email already exist"
+                form=RegistrationForm()
+                return render (request,'home.html',{'form':form, 'msg':msg})
+            else:
+                data.save()
+                msg="registration successfully"
+                # form=RegistrationForm()
+                return render(request,'home.html',{'form':form,'msg':msg})
     else:
         return render(request,'home.html',{'form':form})
     
